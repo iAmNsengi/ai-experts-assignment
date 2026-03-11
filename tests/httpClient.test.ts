@@ -12,9 +12,27 @@ describe("HttpClient OAuth2 behavior", () => {
     expect(resp.headers.Authorization).toBe("Bearer ok");
   });
 
+  test("api=false does not set Authorization header", () => {
+    const c = new HttpClient();
+    c.oauth2Token = new OAuth2Token("ok", Math.floor(Date.now() / 1000) + 3600);
+
+    const resp = c.request("GET", "/me", { api: false });
+
+    expect(resp.headers.Authorization).toBeUndefined();
+  });
+
   test("api=true refreshes when token is missing", () => {
     const c = new HttpClient();
     c.oauth2Token = null;
+
+    const resp = c.request("GET", "/me", { api: true });
+
+    expect(resp.headers.Authorization).toBe("Bearer fresh-token");
+  });
+
+  test("api=true refreshes when token is expired", () => {
+    const c = new HttpClient();
+    c.oauth2Token = new OAuth2Token("expired", Math.floor(Date.now() / 1000) - 10);
 
     const resp = c.request("GET", "/me", { api: true });
 
