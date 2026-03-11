@@ -32,6 +32,24 @@ Update this README to include:
 - how to run the tests locally,
 - how to build and run tests with Docker.
 
+## How to run the tests locally
+
+1. Install dependencies:
+   - `npm install`
+2. Run the test suite:
+   - `npm test`
+
+This will execute the Vitest test suite in a Node environment.
+
+## How to build and run tests with Docker
+
+1. Build the Docker image:
+   - `docker build -t ai-assignment .`
+2. Run the tests inside the container:
+   - `docker run --rm ai-assignment`
+
+The Docker image installs dependencies from `package.json` and runs `npm test` by default via the container `CMD`.
+
 ### 4) Find + fix a bug (required)
 
 There is a bug somewhere in this repository.
